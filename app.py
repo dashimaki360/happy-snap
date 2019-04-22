@@ -4,10 +4,9 @@ from __future__ import unicode_literals
 import os
 import sys
 import random
-from datetime import datetime
 
 import create_reply
-# import image_reply
+import image_reply
 
 from flask import Flask, request, abort
 
@@ -98,9 +97,11 @@ def message_sticker(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
-    reply = "これはどこのしゃしん?"
+    tmp = 'temp.jpg'
+    # TODO
+    # save image to temp path
+    reply = image_reply.createReply(tmp)
     text_msgs = TextSendMessage(text=reply)
-    rec_msg = reply
     line_bot_api.reply_message(
         event.reply_token,
         text_msgs
