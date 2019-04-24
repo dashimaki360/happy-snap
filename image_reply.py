@@ -25,14 +25,20 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', None)
 AWS_REGION_NAME = os.getenv('AWS_REGION_NAME', None)
 AWS_S3_BUCKET_NAME = os.getenv('AWS_S3_BUCKET_NAME', None)
 
+USE_PROXY = os.getenv('USE_PROXY', None)
+
 logger.debug("GOT AWS ENV")
 
 # s3 enviroment setting
 session = boto3.session.Session(aws_access_key_id=AWS_ACCESS_KEY_ID,
                                 aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
                                 region_name=AWS_REGION_NAME)
-#s3 = session.resource('s3')
-s3 = session.resource('s3', config=Config(proxies={'https': 'proxy.mei.co.jp:8080'}))
+
+if USE_PROXY:
+    s3 = session.resource('s3', config=Config(proxies={'https': 'proxy.mei.co.jp:8080'}))
+else:
+    s3 = session.resource('s3')
+
 bucket = s3.Bucket(AWS_S3_BUCKET_NAME)
 s3_url = "https://s3-{}.amazonaws.com/{}/".format(AWS_REGION_NAME, AWS_S3_BUCKET_NAME)
 

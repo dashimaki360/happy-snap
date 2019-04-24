@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import os
 import sys
 import random
+import tempfile
 
 import create_reply
 import image_reply
@@ -97,10 +98,17 @@ def message_sticker(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
-    tmp = 'temp.jpg'
+    static_tmp_path = 'tmp'
+    ext = '.jpg'
     # TODO
     # save image to temp path
-    reply = image_reply.createReply(tmp)
+    message_content = line_bot_api.get_message_content(event.message.id)
+    with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
+        for chunk in message_content.iter_content():
+            tf.write(chunk)
+        tempfile_path = tf.name
+
+    reply = image_reply.createReply(tempfile_path)
     text_msgs = TextSendMessage(text=reply)
     line_bot_api.reply_message(
         event.reply_token,
