@@ -61,14 +61,9 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
     msg = event.message.text
-    reply = create_reply.createReply(msg)
+    reply = "please send me photo"
 
-    if isinstance(reply, list):
-        text_msgs = []
-        for rep in reply:
-            text_msgs.append(TextSendMessage(text=rep))
-    else:
-        text_msgs = TextSendMessage(text=reply)
+    text_msgs = TextSendMessage(text=reply)
 
     line_bot_api.reply_message(
         event.reply_token,
