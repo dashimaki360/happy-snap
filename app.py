@@ -60,8 +60,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    msg = event.message.text
-    reply = "please send me photo"
+    reply = "Please send me a PHOTO"
 
     text_msgs = TextSendMessage(text=reply)
 
@@ -90,22 +89,20 @@ def message_sticker(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
-    static_tmp_path = 'tmp'
-    ext = '.jpg'
     # TODO
     # save image to temp path
     message_content = line_bot_api.get_message_content(event.message.id)
-    with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
+    with tempfile.NamedTemporaryFile(delete=True) as tf:
         for chunk in message_content.iter_content():
             tf.write(chunk)
         tempfile_path = tf.name
 
-    reply = image_reply.createReply(tempfile_path)
-    text_msgs = TextSendMessage(text=reply)
-    line_bot_api.reply_message(
-        event.reply_token,
-        text_msgs
-    )
+        reply = image_reply.createReply(tempfile_path)
+        text_msgs = TextSendMessage(text=reply)
+        line_bot_api.reply_message(
+            event.reply_token,
+            text_msgs
+        )
 
 
 if __name__ == "__main__":
