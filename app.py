@@ -67,10 +67,8 @@ def message_text(event):
         text_msgs = []
         for rep in reply:
             text_msgs.append(TextSendMessage(text=rep))
-        rec_msg = ','.join(reply)
     else:
         text_msgs = TextSendMessage(text=reply)
-        rec_msg = reply
 
     line_bot_api.reply_message(
         event.reply_token,
@@ -85,7 +83,6 @@ def message_sticker(event):
         package_id = 3
     else:
         package_id = 4
-    reply = "stamp {} {}".format(package_id, sticker_id)
 
     line_bot_api.reply_message(
         event.reply_token,
@@ -119,3 +116,4 @@ def message_image(event):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+

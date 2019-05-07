@@ -16,6 +16,7 @@ RESPONSE_DICT = {
     }
 FIX_REPLY_LIST = [
     "写真をおくってね",
+    "写真をおくってね"
 ]
 
 
