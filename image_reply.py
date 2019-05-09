@@ -58,7 +58,7 @@ def createReply(img_path):
     img_url = saveImage(img_path, img_name)
     score = scoringImage(img_url, img_path)
     saveScore(score, img_name)
-    reply_str = "your score is {}/n".format(score)
+    reply_str = "your score is {}\n".format(score)
     reply_str += "http://happy-snap.s3-website-us-east-1.amazonaws.com"
     return reply_str
 
